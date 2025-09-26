@@ -88,15 +88,20 @@ Se utiliza el patrón **MVVM** con separación en capas:
 
 ---
 
-## Características Destacadas
-
-- **Rendimiento**: uso de LazyColumn y carga perezosa de imágenes.  
-- **UX/UI**: diseño responsivo, estados visuales claros, navegación fluida.  
-- **Mantenibilidad**: arquitectura modular, separación de responsabilidades, buenas prácticas y código escalable.  
-
-
 Uso de null safety en propiedades opcionales.
 
 Tecnologías
 
 Jetpack Compose, Navigation Compose, Retrofit, Gson, Coil, ViewModel, StateFlow y corrutinas.
+
+---
+## Preview de la Applicación
+<img width="364" height="807" alt="image" src="https://github.com/user-attachments/assets/07055dd9-4281-4adf-830a-61212e2d4a49" />
+<img width="364" height="816" alt="image" src="https://github.com/user-attachments/assets/8bb1f4f6-5d48-48f9-b1c0-28a89fd9bded" />
+
+
+
+
+
+
+
