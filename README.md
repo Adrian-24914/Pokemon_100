@@ -1,67 +1,102 @@
-Arquitectura
+# Aplicación Pokémon en Android
 
-Patrón MVVM con separación en capas:
+Esta es una aplicación nativa desarrollada en **Kotlin** con **Jetpack Compose** que consume la **PokéAPI** para mostrar información de los primeros 100 Pokémon.
 
-Data Layer: modelos de datos y consumo de la API con Retrofit y Gson.
+---
 
-Domain Layer: lógica de negocio en el ViewModel, gestión de estados con StateFlow y corrutinas.
+## Arquitectura
 
-Presentation Layer: UI con Composables, pantallas de lista y detalle, navegación con Navigation Compose.
+Se utiliza el patrón **MVVM** con separación en capas:
 
-Componentes técnicos
+- **Data Layer**  
+  Modelos de datos y consumo de la API con Retrofit y Gson.  
 
-Retrofit y Gson para peticiones y parsing JSON.
+- **Domain Layer**  
+  Lógica de negocio en el ViewModel, gestión de estados con StateFlow y corrutinas.  
 
-Corrutinas para asincronía.
+- **Presentation Layer**  
+  UI con Composables, pantallas de lista y detalle, navegación con Navigation Compose.  
 
-StateFlow para flujos reactivos y manejo de estados (loading, success, error).
+---
 
-Coil para carga de imágenes.
+## Componentes Técnicos
 
-Interfaz de usuario
+- Retrofit y Gson para peticiones HTTP y parsing JSON.  
+- Corrutinas para asincronía.  
+- StateFlow para flujos reactivos y manejo de estados (loading, success, error).  
+- Coil para carga asíncrona de imágenes.  
 
-MainScreen: lista de 100 Pokémon en LazyColumn con tarjetas y sus imágenes.
+---
 
-DetailScreen: muestra imágenes front/back normales y shiny, con manejo de placeholders y navegación hacia atrás.
+## Interfaz de Usuario
 
-Estilo basado en Material 3, con TopAppBar y colores consistentes.
+- **MainScreen**  
+  Lista de 100 Pokémon en LazyColumn con tarjetas e imágenes.  
 
-Navegación
+- **DetailScreen**  
+  Muestra imágenes front/back normales y shiny, con manejo de placeholders y navegación hacia atrás.  
 
-NavHost con rutas para pantalla principal y detalle.
+- Estilo basado en Material 3, con TopAppBar y colores consistentes.  
 
-Paso de parámetros entre pantallas y back stack controlado.
+---
 
-Integración con la API
+## Navegación
 
-Endpoints de lista y detalle de Pokémon.
+- NavHost con rutas para pantalla principal y detalle.  
+- Paso de parámetros entre pantallas y control del back stack.  
 
-Datos consumidos: nombre, id, sprites normales y shiny, tipos, altura y peso.
+---
 
-Flujo de datos
+## Integración con PokéAPI
 
-Carga de lista desde el ViewModel.
+**Endpoints utilizados**  
+- Lista de Pokémon: `https://pokeapi.co/api/v2/pokemon?limit=100`  
+- Detalle de Pokémon: `https://pokeapi.co/api/v2/pokemon/{id}`  
 
-API → Retrofit → JSON → data classes.
+**Datos consumidos**  
+- Nombre e ID  
+- Sprites normales y shiny (front/back)  
+- Tipos de Pokémon  
+- Altura y peso  
 
-StateFlow notifica a la UI.
+---
 
-Al seleccionar un Pokémon, se navega a la pantalla de detalle y se carga su información.
+## Flujo de Datos
 
-Manejo de estados
+1. Se carga la lista desde el ViewModel.  
+2. API → Retrofit → JSON → data classes.  
+3. StateFlow notifica cambios a la UI.  
+4. Al seleccionar un Pokémon, se navega a la pantalla de detalle y se carga su información.  
 
-Loading, Success, Error, Empty.
+---
 
-Null safety en propiedades opcionales.
+## Manejo de Estados
+
+- Estados: Loading, Success, Error, Empty.  
+- Uso de null safety en propiedades opcionales.  
+
+---
+
+## Tecnologías Utilizadas
+
+- Jetpack Compose  
+- Navigation Compose  
+- Retrofit + Gson  
+- Coil  
+- ViewModel + StateFlow  
+- Corrutinas  
+
+---
+
+## Características Destacadas
+
+- **Rendimiento**: uso de LazyColumn y carga perezosa de imágenes.  
+- **UX/UI**: diseño responsivo, estados visuales claros, navegación fluida.  
+- **Mantenibilidad**: arquitectura modular, separación de responsabilidades, buenas prácticas y código escalable.  
+
+
+Uso de null safety en propiedades opcionales.
 
 Tecnologías
 
 Jetpack Compose, Navigation Compose, Retrofit, Gson, Coil, ViewModel, StateFlow y corrutinas.
-
-Características destacadas
-
-Rendimiento optimizado con LazyColumn y carga perezosa de imágenes.
-
-UX con diseño responsivo, estados visuales claros y navegación fluida.
-
-Código mantenible y escalable gracias a la arquitectura modular y buenas prácticas.
