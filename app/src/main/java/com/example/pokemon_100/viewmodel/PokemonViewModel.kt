@@ -2,9 +2,10 @@ package com.example.pokemon_100.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokemon_100.data.remote.RetrofitClient
+import com.example.pokemon_100.data.repository.MainRepository
 import com.example.pokemon_100.models.PokemonBasic
 import com.example.pokemon_100.models.PokemonDetail
-import com.example.pokemon_100.network.PokemonApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,6 +25,8 @@ data class PokemonDetailUiState(
 
 class PokemonViewModel : ViewModel() {
 
+    private val repository = MainRepository(RetrofitClient.apiService)
+
     private val _listUiState = MutableStateFlow(PokemonListUiState())
     val listUiState: StateFlow<PokemonListUiState> = _listUiState.asStateFlow()
 
@@ -36,57 +39,49 @@ class PokemonViewModel : ViewModel() {
 
     private fun loadPokemonList() {
         viewModelScope.launch {
-            _listUiState.value = _listUiState.value.copy(isLoading = true, error = null)
+            _listUiState.value = _listUiState.value.copy(
+                isLoading = true,
+                error = null
+            )
 
-            try {
-                val response = PokemonApi.service.getPokemonList(100, 0)
-                if (response.isSuccessful) {
-                    response.body()?.let { pokemonListResponse ->
-                        _listUiState.value = _listUiState.value.copy(
-                            pokemonList = pokemonListResponse.results,
-                            isLoading = false
-                        )
-                    }
-                } else {
+            repository.getPokemonList(100, 0)
+                .onSuccess { response ->
                     _listUiState.value = _listUiState.value.copy(
+                        pokemonList = response.results,
                         isLoading = false,
-                        error = "Error loading Pokemon list: ${response.code()}"
+                        error = null
                     )
                 }
-            } catch (e: Exception) {
-                _listUiState.value = _listUiState.value.copy(
-                    isLoading = false,
-                    error = "Error: ${e.message}"
-                )
-            }
+                .onFailure { exception ->
+                    _listUiState.value = _listUiState.value.copy(
+                        isLoading = false,
+                        error = exception.message ?: "Error desconocido al cargar la lista"
+                    )
+                }
         }
     }
 
     fun loadPokemonDetail(pokemonId: Int) {
         viewModelScope.launch {
-            _detailUiState.value = _detailUiState.value.copy(isLoading = true, error = null)
+            _detailUiState.value = _detailUiState.value.copy(
+                isLoading = true,
+                error = null
+            )
 
-            try {
-                val response = PokemonApi.service.getPokemonDetail(pokemonId)
-                if (response.isSuccessful) {
-                    response.body()?.let { pokemon ->
-                        _detailUiState.value = _detailUiState.value.copy(
-                            pokemon = pokemon,
-                            isLoading = false
-                        )
-                    }
-                } else {
+            repository.getPokemonDetail(pokemonId)
+                .onSuccess { pokemon ->
                     _detailUiState.value = _detailUiState.value.copy(
+                        pokemon = pokemon,
                         isLoading = false,
-                        error = "Error loading Pokemon detail: ${response.code()}"
+                        error = null
                     )
                 }
-            } catch (e: Exception) {
-                _detailUiState.value = _detailUiState.value.copy(
-                    isLoading = false,
-                    error = "Error: ${e.message}"
-                )
-            }
+                .onFailure { exception ->
+                    _detailUiState.value = _detailUiState.value.copy(
+                        isLoading = false,
+                        error = exception.message ?: "Error desconocido al cargar el detalle"
+                    )
+                }
         }
     }
 
